@@ -1,13 +1,13 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.exceptions import HTTPException
-from modules import YoloV5
+from modules import YoloV5, SearchEngine, Post
 import torch
 app = FastAPI()
 
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Dm Trang béo"}
 
 
 @app.post("/predict")
