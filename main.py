@@ -1,4 +1,5 @@
 from fastapi import FastAPI, File, UploadFile
+from fastapi.exceptions import HTTPException
 import torch
 app = FastAPI()
 
@@ -10,11 +11,12 @@ async def root():
 
 @app.post("/predict")
 async def predict(file: UploadFile):
+    if file.content_type != "image/jpeg":
+        raise HTTPException(400, detail="Invalid document type")
     model = torch.hub.load(
         "ultralytics/yolov5", "custom", path="weights/best.pt"
     )
     img = "test/images/AG-S-004_jpg.rf.dd3a1e229914fe956644912e1a857159.jpg"
-    coordinates = []
     final_results = []
     results = model(img)
     for i, row in results.pandas().xyxy[0].iterrows():
