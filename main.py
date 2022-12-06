@@ -8,6 +8,6 @@ async def root():
     return {"message": "Hello World"}
 
 
-@app.get("/search")
+@app.get("/search/{search_query}")
 async def search():
     return {"message:" "abc"}
