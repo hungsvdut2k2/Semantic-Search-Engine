@@ -7,13 +7,16 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "DCMM Cau 0",
+            "link": "https://colab.research.google.com/drive/1flYVHzi25el6rGBWARVM4fGO1E4VOsGb?usp=sharing"}
 
 
 @app.post("/predict")
 async def predict(file: UploadFile):
     if file.content_type != "image/jpeg":
-        raise HTTPException(400, detail="Invalid document type")
+        #raise HTTPException(400, detail="Invalid document type")
+        return {"type": file.content_type}
+    print(file)
     img = "test/images/AG-S-004_jpg.rf.dd3a1e229914fe956644912e1a857159.jpg"
     yolov5 = YoloV5(weight_path="weights/best.pt", image_path=img)
     final_results = yolov5.predict_labels()
@@ -26,5 +29,13 @@ async def predict(file: UploadFile):
 
 
 @app.get("/search/{search_query}")
-async def search():
-    return {"message:" "abc"}
+async def search(search_query):
+    posts = []
+    search_engine = SearchEngine()
+    search_engine.create_vocab()
+    search_engine.create_docterm_matrix()
+    vector_query = search_engine.vectorize(search_query)
+    for result in search_engine.ranking(vector_query)[:10]:
+        if search_query.lower() in result[2].lower():
+            posts.append(result)
+    return posts

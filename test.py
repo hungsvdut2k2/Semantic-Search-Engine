@@ -1,5 +1,9 @@
-from models import YoloV5
-predict_model = YoloV5(model_path="weights/yolov5s.pt",
-                       weight_path="weights/best.pt",
-                       image_path="test/images/AG-S-004_jpg.rf.dd3a1e229914fe956644912e1a857159.jpg")
-result = predict_model.load_model()
+from modules import SearchEngine
+
+search_engine = SearchEngine()
+search_engine.create_vocab()
+search_engine.create_docterm_matrix()
+vector_query = search_engine.vectorize("Alpinia Galanga")
+result = search_engine.ranking(vector_query)[:10]
+for value in result:
+    print(value[1])
