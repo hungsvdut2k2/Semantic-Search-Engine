@@ -1,3 +1,3 @@
-sentence-transformers
 fastapi
 uvicorn[standard]
+gensim
