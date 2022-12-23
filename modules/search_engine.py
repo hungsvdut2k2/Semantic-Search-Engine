@@ -36,6 +36,7 @@ class SearchEngine:
 
     def search(self, query):
         results = []
+        final_results = []
         query_embedding = self.query_embedding(query)
         for corpus in self.docterm_matrix:
             temp_list = []
@@ -45,4 +46,7 @@ class SearchEngine:
             temp_list.append(cosine_value)
             results.append(temp_list)
         results.sort(reverse=True, key=lambda x: x[2])
-        return results[:10]
+        for corpus in results:
+            if query.lower() in corpus[1]:
+                final_results.append(corpus)
+        return final_results

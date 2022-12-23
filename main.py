@@ -2,6 +2,8 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.exceptions import HTTPException
 from modules import SearchEngine
 app = FastAPI()
+search_engine = SearchEngine()
+search_engine.create_docterm_matrix()
 
 
 @app.get("/")
@@ -12,6 +14,4 @@ async def root():
 
 @app.get("/search/{search_query}")
 async def search(search_query):
-    search_engine = SearchEngine()
-    search_engine.create_docterm_matrix()
     return search_engine.search(search_query)
