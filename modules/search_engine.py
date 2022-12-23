@@ -16,6 +16,7 @@ class SearchEngine:
             temp_list = []
             count = 0
             vector = np.zeros(100)
+            temp_list.append(i)
             temp_list.append(df.loc[i]['title'])
             temp_list.append(df.loc[i]['article'])
             for word in df.loc[i]['article'].split():
@@ -42,11 +43,16 @@ class SearchEngine:
             temp_list = []
             temp_list.append(corpus[0])
             temp_list.append(corpus[1])
-            cosine_value = cosine_similarity(query_embedding, corpus[2])
+            temp_list.append(corpus[2])
+            cosine_value = cosine_similarity(query_embedding, corpus[3])
             temp_list.append(cosine_value)
             results.append(temp_list)
-        results.sort(reverse=True, key=lambda x: x[2])
+        results.sort(reverse=True, key=lambda x: x[3])
         for corpus in results:
-            if query.lower() in corpus[1]:
-                final_results.append(corpus)
+            if query.lower() in corpus[2]:
+                final_results.append((corpus[0], corpus[1]))
         return final_results
+
+    def get_corpus(self, index):
+        df = pd.read_csv("dataset/output.csv")
+        return (df.loc[index]['title'], df.loc[index]['article'])

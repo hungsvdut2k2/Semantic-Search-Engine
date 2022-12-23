@@ -15,3 +15,8 @@ async def root():
 @app.get("/search/{search_query}")
 async def search(search_query):
     return search_engine.search(search_query)
+
+
+@app.get("/corpus/{corpus_index}")
+async def get_corpus(corpus_index):
+    return search_engine.get_corpus(int(corpus_index))
