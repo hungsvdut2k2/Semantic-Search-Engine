@@ -50,7 +50,7 @@ class SearchEngine:
         results.sort(reverse=True, key=lambda x: x[3])
         for corpus in results:
             if query.lower() in corpus[2]:
-                final_results.append((corpus[0], corpus[1]))
+                final_results.append((corpus[0], corpus[1], corpus[2]))
         return final_results
 
     def get_corpus(self, index):
