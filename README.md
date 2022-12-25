@@ -15,5 +15,5 @@ $ cd Semantic-Search-Engine
 # Install packages
 $ pip install -r requirements.txt
 # Run the app
-$ python -m uvicorn main:app --reload
+$ python -m uvicorn main:app --reload --host 0.0.0.0
 ```
